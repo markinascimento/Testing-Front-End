@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import axios from 'axios';
 
 import { Header } from './components/Header/Header';
-import { Catalog } from './components/Catalog/Catalog';
 import { Footer } from './components/Footer/Footer';
+
+import { api } from './service/api';
 
 import bannerImg from './assets/banner.svg';
 import arrowLeft from './assets/arrow-left.svg';
@@ -11,15 +14,60 @@ import arrowRigth from './assets/arrow-rigth.svg';
 import './app.css';
 
 function App() {
+  const [user, setUser] = useState('');
+  const [email, setEmail] = useState('');
+  const [catalog, setCatalog] = useState([]);
+  const [createUser, setCreateUser] = useState('');
+
+  //Toda vez que a página recarregar, irá fazer um GET na API para pegar todos os dados.
+  useEffect(() => {
+    //Requisiçõa na API
+    async function loadedCatalog() {
+      await api.get('api/v1/products')
+      //Caso ocorra sucesso, retornará os dados
+      .then((resposta) => {
+        setCatalog(resposta.data)
+        console.log(resposta.data);
+      })
+      //Caso ocorra erro, irá mostrar um log com o erro
+      .catch(erro => console.log(erro))
+    }
+
+    loadedCatalog();
+  }, []);
+
+  //Fazer cadastro de usuário na base de tados.
+  async function handlerSubmit(){
+
+    //Válidações do input
+    if(user === '' || user.length < 2 || email === false){
+      alert('Por Favor, digite um usuário válido!');
+      return;
+    }
+
+    //Criando o metódo da requisiçaõ
+    api.post('api/v1/newsletter',{
+      "email": email,
+      "name": user
+    })
+    //Caso ocorra sucesso
+    .then((resposta) => {
+      setCreateUser(resposta.data);
+      console.log(resposta.data);
+      setUser('');
+      setEmail('');
+    })
+    //Caso ocorra erro
+    .catch((error) => console.log(error))
+  }
+
   return (
     <div className="App">
       {/* Header */}
         <Header/>
 
-
       {/* Banner */}
       <img src={bannerImg} alt="bannerImg" />
-
 
       {/* Title Best Sellers */}
       <div className="container-shelf">
@@ -31,33 +79,54 @@ function App() {
       {/* Container Catalog */}
       <div className="container-catalog">
         <img src={arrowLeft} alt="arrowLeft" className="arrowLeft"/>
-        <Catalog/>
-        <Catalog/>
-        <Catalog/>
-        <Catalog/>
+        {catalog.map((item) => {
+          return(
+            <article key={item.productId} className="view-catalog">
+              <img src={item.imageUrl} alt="logo" />
+              <div className="container-description">
+                <span> {item.productName} </span>
+                <h6> stars </h6>
+                {item.listPrice &&
+                  <h3> de R$ {item.listPrice} </h3>
+                }
+                <h1> por R$ {item.price} </h1>
+                <p> ou em 9x de R$ 28,87 </p>
+                <button> COMPRAR </button>
+              </div>  
+            </article>
+          )
+        })}
         <img src={arrowRigth} alt="arrowRigth" className="arrowRigth"/>
       </div>
-
 
       {/* Container Event */}
       <div className="container-event">
         <h1> Participe de nossas news com promoções e novidades! </h1>
-
-        <form className="container-form">
-          <input type="text" className="input"/>
-
-          <input type="text" className="input"/>
-
-          <button className="button-submit">
+        <div className="container-form">
+          <input 
+            type="text" 
+            className="input" 
+            placeholder="Digite seu nome"
+            value={user}
+            onChange={(text) => setUser(text.target.value)}
+          />
+          <input 
+            type="email" 
+            className="input" 
+            placeholder="Digite seu email"
+            value={email}
+            onChange={(text) => setEmail(text.target.value)}
+          />
+          <button onClick={handlerSubmit} className="button-submit">
             <p> Eu quero! </p>
           </button>
-        </form>
+        </div>
       </div>
 
+      {/* Footer */}
       <div className="contianer-footer">
         <Footer/>
       </div>
-
 
     </div>
   );

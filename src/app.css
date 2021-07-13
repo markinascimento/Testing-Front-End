@@ -7,6 +7,11 @@
   justify-content: center;
 }
 
+.App  > img {
+  width: 100%;
+}
+
+/* Style Catalog */
 .container-shelf{
   width: 70%;
   display: flex;
@@ -31,22 +36,111 @@
 }
 
 .container-catalog {
-  width: 90%;
+  width: 80%;
   display: flex;
-  margin-top: 100px;
+  margin-top: 20px;
   flex-direction: row;
   align-items: center;
   justify-content: space-around;
 }
 
-.container-catalog .arrowLeft {
-  margin-right: -80px;
+.view-catalog {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.container-catalog .arrowRigth {
-  margin-left: -80px;
+.view-catalog > img {
+  width: 220px;
+  height: 200px;
 }
 
+.container-description {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  transition: .3s;
+}
+
+.container-description:hover {
+  background-color: #E6E8EA;
+}
+
+.container-description > span {
+  color: #7A7A7A;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;  
+  margin-bottom: -20px;
+  font-style: normal;
+}
+
+.container-description > h6 {
+  color: #7A7A7A;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;  
+  margin-bottom: -5px;
+  font-style: normal;
+}
+
+.container-description > h3 {
+  color: #7A7A7A;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+  text-align: center;  
+  margin-bottom: -16px;
+  font-style: normal;
+}
+
+.container-description > h1 {
+  font-size: 18px;
+  color: #000000;
+  font-weight: bold;
+  line-height: 25px;
+  font-style: normal;
+  text-align: center;
+  margin-bottom: -14px;
+}
+
+.container-description > p {
+  font-size: 11px;
+  color: #7A7A7A;
+  line-height: 15px;
+  font-style: normal;
+  text-align: center;
+  font-weight: normal;
+}
+
+.container-description > button {
+  outline: 0;
+  width: 126px;
+  height: 33px;
+  color: #FFF;
+  font-size: 12px;
+  display: flex;
+  border: 0 none;
+  cursor: pointer;
+  border-radius: 5px;
+  box-shadow: 0 0 0 0;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  transition: .3s;
+} 
+
+.container-description > button:hover {
+  opacity: 0.8;
+  width: 150px;
+  height: 50px;
+}
+
+/* Style Evente */
 .container-event {
   display: flex;
   flex-direction: column;
@@ -75,7 +169,11 @@
   border: 0 none;
   border-radius: 5px;
   outline: 0;
+  padding-left: 15px;
   background-color: #FFF;
+  font-size: 12px;
+  font-weight: 14px;
+  color: #585858;
 }
 
 .container-event .container-form .button-submit {
@@ -93,6 +191,7 @@
   font-size: 16px;
 }
 
+/* Stylle Footer */
 .contianer-footer {
   width: 100%;
   background-color: #000000;
