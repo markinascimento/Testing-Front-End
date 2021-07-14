@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import axios from 'axios';
-
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 
@@ -17,7 +15,9 @@ function App() {
   const [user, setUser] = useState('');
   const [email, setEmail] = useState('');
   const [catalog, setCatalog] = useState([]);
-  const [createUser, setCreateUser] = useState('');
+  const [numberPurchase, setNumberPurchase] = useState(0);
+  const [numberCar, setNumberCar] = useState(0);
+  const [controller, setController] = useState(false);
 
   //Toda vez que a página recarregar, irá fazer um GET na API para pegar todos os dados.
   useEffect(() => {
@@ -27,33 +27,35 @@ function App() {
       //Caso ocorra sucesso, retornará os dados
       .then((resposta) => {
         setCatalog(resposta.data)
-        console.log(resposta.data);
       })
       //Caso ocorra erro, irá mostrar um log com o erro
       .catch(erro => console.log(erro))
     }
 
     loadedCatalog();
+
+    setNumberPurchase(localStorage.getItem('numberCar'));
   }, []);
 
   //Fazer cadastro de usuário na base de tados.
   async function handlerSubmit(){
 
     //Válidações do input
-    if(user === '' || user.length < 2 || email === false){
+    if(user === '' || email === ''){
       alert('Por Favor, digite um usuário válido!');
+      setUser('');
+      setEmail('');
       return;
     }
 
-    //Criando o metódo da requisiçaõ
+    //Criando o metódo da requisiçaõ POST
     api.post('api/v1/newsletter',{
       "email": email,
       "name": user
     })
     //Caso ocorra sucesso
-    .then((resposta) => {
-      setCreateUser(resposta.data);
-      console.log(resposta.data);
+    .then((resp) => {
+      alert('E-mail cadastrado com sucesso!!!');
       setUser('');
       setEmail('');
     })
@@ -61,13 +63,31 @@ function App() {
     .catch((error) => console.log(error))
   }
 
+  function handlerAddCar(){
+    setController(true);
+    setNumberCar(numberCar + 1);
+    localStorage.setItem('numberCar', numberCar + 1);
+  }
+
+  function handlerClearCar(){
+    localStorage.clear();
+    document.location.reload();
+  }
+
   return (
     <div className="App">
       {/* Header */}
-        <Header/>
+        <Header 
+          numberPurchase={numberPurchase} 
+          numberCar={numberCar} 
+          clearCar={handlerClearCar}
+          controller={controller}
+        />
+     
 
       {/* Banner */}
       <img src={bannerImg} alt="bannerImg" />
+
 
       {/* Title Best Sellers */}
       <div className="container-shelf">
@@ -91,13 +111,14 @@ function App() {
                 }
                 <h1> por R$ {item.price} </h1>
                 <p> ou em 9x de R$ 28,87 </p>
-                <button> COMPRAR </button>
+                <button onClick={handlerAddCar}> COMPRAR </button>
               </div>  
             </article>
           )
         })}
         <img src={arrowRigth} alt="arrowRigth" className="arrowRigth"/>
       </div>
+
 
       {/* Container Event */}
       <div className="container-event">
@@ -122,6 +143,7 @@ function App() {
           </button>
         </div>
       </div>
+
 
       {/* Footer */}
       <div className="contianer-footer">

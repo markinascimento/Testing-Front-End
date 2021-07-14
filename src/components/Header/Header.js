@@ -7,11 +7,12 @@ import carImg from '../../assets/car.svg'
 
 import './style.css'
 
-export function Header() {
+export function Header({ numberPurchase, numberCar, controller, clearCar }) {
+
   return (
     <div className="container-header">
       <img src={logoImg} alt="logoImg" />
-
+      {console.log(controller)}
       <div className="container-search" >
         <input type="text" placeholder="O que está procurando?"/>
         <img src={searchImg} alt="searchImg" />
@@ -24,9 +25,15 @@ export function Header() {
 
       <div className="container-car">
         <img src={carImg} alt="carImg" />
+
         <div>
-          <span> 1 </span>
+          { controller 
+            ?  <span> {numberCar} </span> 
+            :  <span> {numberPurchase} </span>
+          }
         </div>
+          
+        <button className="clear-car" onClick={clearCar}> x </button>
       </div>
     </div>
   )
