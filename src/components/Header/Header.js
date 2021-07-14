@@ -11,7 +11,7 @@ export function Header({ numberPurchase, numberCar, controller, clearCar }) {
 
   return (
     <div className="container-header">
-      <img src={logoImg} alt="logoImg" />
+      <img src={logoImg} alt="logoImg" className="logo"/>
       {console.log(controller)}
       <div className="container-search" >
         <input type="text" placeholder="O que está procurando?"/>

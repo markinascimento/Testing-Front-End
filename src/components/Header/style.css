@@ -69,4 +69,27 @@
   color: #000;
   border: none;
   cursor: pointer;
+  margin-bottom: 5px;
+}
+
+@media (max-width: 800px) {
+  
+  .container-header {
+    gap: 10px;
+  }
+
+  .logo {
+    width: 100px;
+    margin-left: -40px;
+  }
+  
+  .container-search {
+    flex: 0.1;
+    margin: 0 10px;
+  }
+
+  .container-user {
+    margin-right: 10px;
+  }
+
 }

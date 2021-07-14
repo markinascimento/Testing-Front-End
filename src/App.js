@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
+import { Catalog } from './components/Catalog/Catalog';
 
 import { api } from './service/api';
 
@@ -83,11 +84,9 @@ function App() {
           clearCar={handlerClearCar}
           controller={controller}
         />
-     
-
+    
       {/* Banner */}
       <img src={bannerImg} alt="bannerImg" />
-
 
       {/* Title Best Sellers */}
       <div className="container-shelf">
@@ -95,30 +94,27 @@ function App() {
         <div className="details-bar"></div>
       </div>
 
-
       {/* Container Catalog */}
-      <div className="container-catalog">
-        <img src={arrowLeft} alt="arrowLeft" className="arrowLeft"/>
-        {catalog.map((item) => {
-          return(
-            <article key={item.productId} className="view-catalog">
-              <img src={item.imageUrl} alt="logo" />
-              <div className="container-description">
-                <span> {item.productName} </span>
-                <h6> stars </h6>
-                {item.listPrice &&
-                  <h3> de R$ {item.listPrice} </h3>
-                }
-                <h1> por R$ {item.price} </h1>
-                <p> ou em 9x de R$ 28,87 </p>
-                <button onClick={handlerAddCar}> COMPRAR </button>
-              </div>  
-            </article>
-          )
-        })}
-        <img src={arrowRigth} alt="arrowRigth" className="arrowRigth"/>
-      </div>
+      <div className="viewMain-catalog">
+        <img src={arrowLeft} alt="arrowLeft"/>
 
+        {catalog.map((item) =>  {
+          return(
+            <Catalog 
+              Id={item.productId}
+              key={item.productId}
+              image={item.imageUrl}
+              nameProduct={item.productName}
+              discout={item.listPrice}
+              price={item.price}
+              installments={item.installments}
+              handlerAddCar={handlerAddCar} 
+            />
+          );
+        })}
+
+        <img src={arrowRigth} alt="arrowRigth"/>
+      </div>
 
       {/* Container Event */}
       <div className="container-event">
